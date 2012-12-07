@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">What\'s the WiFi Password?</string>
+    <string name="menu_refresh">Refresh</string>
+</resources>
