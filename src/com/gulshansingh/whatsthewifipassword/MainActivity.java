@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 	private void refresh(boolean messageOnError) {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = cm.getActiveNetworkInfo();
-		if (info.isConnected()) {
+		if (info != null && info.isConnected()) {
 			NetworkInterface.updatePassword(this,
 					new GetPasswordCompleteListener());
 			Toast.makeText(this, "Refreshing", Toast.LENGTH_SHORT).show();

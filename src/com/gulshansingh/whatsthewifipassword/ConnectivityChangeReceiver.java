@@ -13,7 +13,7 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
 		ConnectivityManager cm = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = cm.getActiveNetworkInfo();
-		if (info.isConnected()) {
+		if (info != null && info.isConnected()) {
 			NetworkInterface.updatePassword(context);
 		}
 	}
