@@ -4,7 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.app.Activity;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.Toast;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -12,10 +15,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 
 public class MainActivity extends Activity {
 
@@ -36,7 +39,7 @@ public class MainActivity extends Activity {
 		if (info.isConnected()) {
 			NetworkInterface.updatePassword(this,
 					new GetPasswordCompleteListener());
-			Toast.makeText(this, "Refreshing", Toast.LENGTH_SHORT);
+			Toast.makeText(this, "Refreshing", Toast.LENGTH_SHORT).show();
 		} else {
 			if (messageOnError) {
 				Toast.makeText(
@@ -85,7 +88,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
+		getSupportMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
 
