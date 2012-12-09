@@ -45,6 +45,11 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		refresh();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 		displayText();
 	}
 
