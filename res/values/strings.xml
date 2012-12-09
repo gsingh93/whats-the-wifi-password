@@ -3,4 +3,9 @@
 
     <string name="app_name">What\'s the WiFi Password?</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="error_message_refresh">Unable to retrieve password. Please make sure you have an internet connection</string>
+    <string name="message_no_password">The password will be downloaded if you have a WiFi connection. This is the only time you will need a connection.</string>
+    <string name="message_password_is">The password is &lt;font color=\"green\">%1$s&lt;/font></string>
+    <string name="message_last_synced">Last Synced %1$s at %2$s</string>
+
 </resources>

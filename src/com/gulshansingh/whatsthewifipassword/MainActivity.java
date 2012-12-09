@@ -8,17 +8,14 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-
 
 public class MainActivity extends Activity {
 
@@ -33,28 +30,21 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	private void refresh(boolean messageOnError) {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo info = cm.getActiveNetworkInfo();
-		if (info != null && info.isConnected()) {
-			NetworkInterface.updatePassword(this,
-					new GetPasswordCompleteListener());
+	private boolean refresh() {
+		boolean connected = NetworkInterface.updatePassword(this,
+				new GetPasswordCompleteListener());
+		if (connected) {
 			Toast.makeText(this, "Refreshing", Toast.LENGTH_SHORT).show();
-		} else {
-			if (messageOnError) {
-				Toast.makeText(
-						this,
-						"Unable to retrieve password. Please make sure you have an internet connection",
-						Toast.LENGTH_LONG).show();
-			}
 		}
+
+		return connected;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		refresh(false);
+		refresh();
 		displayText();
 	}
 
@@ -73,16 +63,17 @@ public class MainActivity extends Activity {
 			SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm aa",
 					Locale.US);
 
-			String passwordTextHtml = "The password is <font color='green'>"
-					+ password + "</font>";
-			String lastSyncedText = "Last Synced " + dateFormatter.format(date)
-					+ " at " + timeFormatter.format(date);
+			Resources res = getResources();
+			String passwordTextHtml = String.format(
+					res.getString(R.string.message_password_is), password);
+			String lastSyncedText = String.format(
+					res.getString(R.string.message_last_synced),
+					dateFormatter.format(date), timeFormatter.format(date));
 
 			passwordTextView.setText(Html.fromHtml(passwordTextHtml));
 			lastSyncedTextView.setText(lastSyncedText);
 		} else {
-			passwordTextView
-					.setText("The password will be downloaded if you have a WiFi connection. This is the only time you will need a connection.");
+			passwordTextView.setText(R.string.message_no_password);
 		}
 	}
 
@@ -97,7 +88,11 @@ public class MainActivity extends Activity {
 		int id = item.getItemId();
 		switch (id) {
 		case R.id.menu_refresh:
-			refresh(true);
+			boolean success = refresh();
+			if (!success) {
+				Toast.makeText(this, R.string.error_message_refresh,
+						Toast.LENGTH_LONG).show();
+			}
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

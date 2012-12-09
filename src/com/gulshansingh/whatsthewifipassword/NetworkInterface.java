@@ -73,17 +73,20 @@ public class NetworkInterface {
 		}
 	}
 
-	public static void updatePassword(Context context,
+	public static boolean updatePassword(Context context,
 			AsyncTaskCompleteListener<String> l) {
 		ConnectivityManager cm = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = cm.getActiveNetworkInfo();
-		if (info.isConnected()) {
+		if (info != null && info.isConnected()) {
 			new GetPasswordTask(context, l).execute();
+		} else {
+			return false;
 		}
+		return true;
 	}
 
-	public static void updatePassword(Context context) {
-		updatePassword(context, null);
+	public static boolean updatePassword(Context context) {
+		return updatePassword(context, null);
 	}
 }
